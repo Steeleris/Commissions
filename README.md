@@ -18,6 +18,6 @@ For example:
 
 ## Testing
 
-Tests can be easily run with the following command from the base directory:
+Tests can be easily run with the following command from the base directory. Of course, if composer client is globally installed in you file system:
 
 `phpunit`
