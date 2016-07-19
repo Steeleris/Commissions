@@ -1,0 +1,22 @@
+{
+    "name": "steeler/commissions",
+    "description": "Console application counting commissions by given data",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ugnius Sinonis",
+            "email": "ugnius.sinonis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+    "require": {
+        "symfony/console": "^3.1"
+    },
+    "require-dev": {
+        "spryker/code-sniffer": "^0.5.0",
+        "phpunit/phpunit": "^5.4",
+        "mikey179/vfsStream": "^1.6"
+    }
+}
