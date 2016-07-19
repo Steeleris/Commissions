@@ -3,8 +3,7 @@
 namespace Commissions\Config;
 
 /**
- * Class which loads configurations within parameters given in parameters.php
-
+ * Class which loads configurations within parameters given in a parameters file
  */
 class Config
 {
@@ -14,13 +13,24 @@ class Config
      * @var array
      */
     public static $items = array();
+    private static $pathToTheFile = null;
+
+    /**
+     * Setting path to the file of the parameters
+     *
+     * @param $path
+     */
+    public static function setParamsFile($path)
+    {
+        static::$pathToTheFile = $path;
+    }
 
     /**
      * Loads the config file specified and sets $items to the array
      */
     public static function load()
     {
-        static::$items = include( __DIR__ . '/parameters.php');
+        static::$items = include(static::$pathToTheFile);
     }
 
     /**
@@ -39,7 +49,7 @@ class Config
         $column = array_shift($path);
 
         if (is_array($val[$column])) {
-            return self::pathToTheValue($path, $val[$column]);
+            return static::pathToTheValue($path, $val[$column]);
         }
 
         return $val[$column];
@@ -57,12 +67,12 @@ class Config
             return static::$items;
         }
 
-        self::load();
+        static::load();
 
         $path = explode('.', $key);
         $column = array_shift($path);
         $val = static::$items[$column];
 
-        return self::pathToTheValue($path, $val);
+        return static::pathToTheValue($path, $val);
     }
 }

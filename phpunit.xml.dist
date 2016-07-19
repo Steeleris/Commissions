@@ -15,10 +15,6 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
-            <exclude>
-                <file>./src/app.php</file>
-                <file>./src/container.php</file>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>

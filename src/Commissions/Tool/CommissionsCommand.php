@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Commissions\Model\ProcessCSV;
+use Commissions\Config\Config;
 
 class CommissionsCommand extends Command
 {
@@ -26,6 +27,8 @@ class CommissionsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        Config::setParamsFile(__DIR__ . '/../Config/parameters.php');
+
         $process = new ProcessCSV();
         $path = $input->getArgument('path');
         $operations = $process->getAllOperations($path);
@@ -34,13 +37,12 @@ class CommissionsCommand extends Command
         $commissionsCounter->defineCommissions();
 
         foreach ($operations as $operation) {
-            $tax = ceil($operation->getCommissions() * 100) / 100;
-            $tax = number_format($tax, 2, '.', ',');
+            $tax = number_format($operation->getCommissions(), 2, '.', ',');
             $output->writeln($tax);
         }
 
         if (!$operations) {
-            $output->writeln('<info>There are no operations given!</info>');
+            throw new \Exception('There are no operations given!');
         }
     }
 }

@@ -140,6 +140,17 @@ class CountCommissions
     }
 
     /**
+     * Applying ceiling function within 2 decimal points
+     *
+     * @param $uglyTax
+     * @return string
+     */
+    private function applyCeiling($uglyTax)
+    {
+        return ceil($uglyTax * 100) / 100;
+    }
+
+    /**
      * Defining commissions of each operation
      */
     public function defineCommissions()
@@ -163,7 +174,8 @@ class CountCommissions
                 }
             }
 
-            $operation->setCommissions($tax);
+            $cleanTax = $this->applyCeiling($tax);
+            $operation->setCommissions($cleanTax);
         }
     }
 }
