@@ -15,7 +15,7 @@ class DiscountEntity
     private $weekId;
 
     /**
-     * @var float
+     * @var double
      */
     private $discountSum;
 

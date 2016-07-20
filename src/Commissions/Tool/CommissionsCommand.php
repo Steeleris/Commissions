@@ -37,7 +37,7 @@ class CommissionsCommand extends Command
         $commissionsCounter->defineCommissions();
 
         foreach ($operations as $operation) {
-            $tax = number_format($operation->getCommissions(), 2, '.', ',');
+            $tax = sprintf("%.2f", $operation->getCommissions());
             $output->writeln($tax);
         }
 

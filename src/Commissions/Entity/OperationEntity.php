@@ -25,7 +25,7 @@ class OperationEntity
     private $transactionType;
 
     /**
-     * @var float
+     * @var double
      */
     private $amount;
 
@@ -114,7 +114,7 @@ class OperationEntity
     }
 
     /**
-     * @return float
+     * @return double
      */
     public function getAmount()
     {
@@ -122,7 +122,7 @@ class OperationEntity
     }
 
     /**
-     * @param float $amount
+     * @param double $amount
      */
     public function setAmount($amount)
     {

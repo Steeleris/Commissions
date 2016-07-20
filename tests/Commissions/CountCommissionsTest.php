@@ -61,7 +61,7 @@ class CountCommissionsTest extends \PHPUnit_Framework_TestCase
         $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 1000000, "JPY");
         $tax = $this->settingCommissions($operation);
 
-        $this->assertEquals($tax, 2611.42);
+        $this->assertEquals($tax, 2611.41);
     }
 
     public function testSingleJuridicalCashInEUR()
@@ -135,5 +135,51 @@ class CountCommissionsTest extends \PHPUnit_Framework_TestCase
         $tax = $operations[3]->getCommissions();
 
         $this->assertEquals($tax, 3);
+    }
+
+    public function testOnTheEdgeFullDiscountNaturalCashOutEUR()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 1000, "EUR");
+        $tax = $this->settingCommissions($operation);
+
+        $this->assertEquals($tax, 0);
+    }
+
+    public function testOnTheEdgeFullDiscountNaturalCashOutUSD()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 1149.7, "USD");
+        $tax = $this->settingCommissions($operation);
+        $this->assertEquals($tax, 0);
+    }
+
+    public function testOnTheEdgeFullDiscountNaturalCashOutJPY()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 129530, "JPY");
+        $tax = $this->settingCommissions($operation);
+
+        $this->assertEquals($tax, 0);
+    }
+
+    public function testOnTheEdgeSmallPaymentNaturalCashOutEUR()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 1000.01, "EUR");
+        $tax = $this->settingCommissions($operation);
+
+        $this->assertEquals($tax, 0.01);
+    }
+
+    public function testOnTheEdgeSmallPaymentNaturalCashOutUSD()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 1149.71, "USD");
+        $tax = $this->settingCommissions($operation);
+        $this->assertEquals($tax, 0.01);
+    }
+
+    public function testOnTheEdgeSmallPaymentNaturalCashOutJPY()
+    {
+        $operation = new OperationEntity(new \DateTime("2016-01-01"), 1, "natural", "cash_out", 129530.01, "JPY");
+        $tax = $this->settingCommissions($operation);
+
+        $this->assertEquals($tax, 0.01);
     }
 }

@@ -65,6 +65,16 @@ class CountCommissions
     }
 
     /**
+     * Leaving only ten decimal places in order to do more accurate calculations later
+     *
+     * @param $val
+     */
+    private function fixDouble(&$val)
+    {
+        $val = (double)sprintf("%.10f", $val);
+    }
+
+    /**
      * Discount for the first 3 operations with a money limit
      *
      * @param $userId
@@ -87,7 +97,12 @@ class CountCommissions
         }
 
         $discountSum = $discount->getDiscountSum();
+
+        $this->fixDouble($discountSum);
+        $this->fixDouble($amount);
+
         $discountSum -= $amount;
+
         $timesLeft = $discount->getTimesLeft();
 
         if ($discountSum > 0 && $timesLeft > 0) {
@@ -95,7 +110,11 @@ class CountCommissions
             $discount->setDiscountSum($discountSum);
         } else {
             $payFor = $amount;
-            $payFor -= ($timesLeft > 0) ? $discount->getDiscountSum() : 0;
+
+            $discountSum = $discount->getDiscountSum();
+            $this->fixDouble($discountSum);
+
+            $payFor -= ($timesLeft > 0) ? $discountSum : 0;
             $discount->setDiscountSum(0);
         }
 
@@ -147,6 +166,7 @@ class CountCommissions
      */
     private function applyCeiling($uglyTax)
     {
+        $this->fixDouble($uglyTax);
         return ceil($uglyTax * 100) / 100;
     }
 
